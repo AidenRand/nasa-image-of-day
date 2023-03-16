@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import font
+import requests
 
 root = Tk()
 root.geometry("800x800")
@@ -19,7 +20,9 @@ def get_user_input():
 
 
 def get_image():
-    get_user_input()
+    user_input = get_user_input()
+    response = requests.get("https://images-api.nasa.gov/search?q=q{user_input}")
+    print(response.json())
 
 
 enter_input = Button(root, text="🔍", font=input_font, height=1, command=get_image)
