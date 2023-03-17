@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import font
-from PIL import Image, ImageTk
+from PIL import ImageTk
 from urllib.request import urlopen
 import requests
 import json
@@ -15,6 +15,7 @@ def get_image():
 
     params = {"hd": "True"}
 
+    # get json data from api
     response = requests.get(url, params=params)
     json_data = json.loads(response.text)
     image_url = json_data["hdurl"]
@@ -27,6 +28,7 @@ def show_image():
     raw_data = u.read()
     u.close()
 
+    # print photo to window
     photo = ImageTk.PhotoImage(data=raw_data)
     label = Label(image=photo)
     label.image = photo
