@@ -1,32 +1,39 @@
 from tkinter import *
 from tkinter import font
+from PIL import Image, ImageTk
+from urllib.request import urlopen
 import requests
+import json
 
 root = Tk()
 root.geometry("800x800")
 root.title("Nasa Images")
 
 
-input_font = font.Font(size=16)
-user_input = Entry(root, width=30, font=input_font)
-user_input.place(x=180, y=20, height=45)
-
-
-def get_user_input():
-    try:
-        return user_input.get()
-    finally:
-        user_input.delete(0, END)
-
-
 def get_image():
-    user_input = get_user_input()
-    response = requests.get("https://images-api.nasa.gov/search?q=q{user_input}")
-    print(response.json())
+    url = "https://api.nasa.gov/planetary/apod?api_key=tgdFlsc0ek07wdiX6UI5RDFH0793AzMD5YQi0DWE"
+
+    params = {"hd": "True"}
+
+    response = requests.get(url, params=params)
+    json_data = json.loads(response.text)
+    image_url = json_data["hdurl"]
+    return image_url
 
 
-enter_input = Button(root, text="🔍", font=input_font, height=1, command=get_image)
-enter_input.place(x=560, y=20)
+def show_image():
+    imageUrl = get_image()
+    u = urlopen(imageUrl)
+    raw_data = u.read()
+    u.close()
 
+    photo = ImageTk.PhotoImage(data=raw_data)
+    label = Label(image=photo)
+    label.image = photo
+    label.place(x=500, y=100)
+
+
+imageBtn = Button(root, text="Get image", command=show_image)
+imageBtn.place(x=300, y=10)
 
 root.mainloop()
