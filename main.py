@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import font
-from PIL import Image, ImageTk
+from PIL import ImageTk
 from urllib.request import urlopen
 import requests
 import json
@@ -8,6 +8,7 @@ import json
 root = Tk()
 root.geometry("1500x1000")
 root.title("Nasa Images")
+root.config(bg="#d8d8d8")
 
 
 def get_image():
@@ -35,7 +36,12 @@ def show_image():
     label.place(x=200, y=80)
 
 
-imageBtn = Button(root, text="Get image", command=show_image)
-imageBtn.place(x=300, y=10)
+buttonFont = font.Font(size=16)
+imageBtn = Button(root, text="Get image", font=buttonFont, command=show_image)
+imageBtn.place(x=680, y=10)
+
+# Add scrollbar
+sb = Scrollbar(root)
+sb.pack(side=RIGHT, fill=Y)
 
 root.mainloop()
