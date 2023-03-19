@@ -1,12 +1,12 @@
 from tkinter import *
 from tkinter import font
-from PIL import ImageTk
+from PIL import Image, ImageTk
 from urllib.request import urlopen
 import requests
 import json
 
 root = Tk()
-root.geometry("800x800")
+root.geometry("1500x1000")
 root.title("Nasa Images")
 
 
@@ -18,7 +18,7 @@ def get_image():
     # get json data from api
     response = requests.get(url, params=params)
     json_data = json.loads(response.text)
-    image_url = json_data["hdurl"]
+    image_url = json_data["url"]
     return image_url
 
 
@@ -29,10 +29,10 @@ def show_image():
     u.close()
 
     # print photo to window
-    photo = ImageTk.PhotoImage(data=raw_data)
-    label = Label(image=photo)
-    label.image = photo
-    label.place(x=500, y=100)
+    image = ImageTk.PhotoImage(data=raw_data)
+    label = Label(image=image)
+    label.image = image
+    label.place(x=200, y=80)
 
 
 imageBtn = Button(root, text="Get image", command=show_image)
