@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import font
-from tkcalendar import Calendar, DateEntry
+from tkcalendar import DateEntry
 from PIL import ImageTk
 from urllib.request import urlopen
 import requests
@@ -12,20 +12,42 @@ root.title("Nasa Images")
 root.config(bg="#d8d8d8")
 
 
+# Create date entries
+entry_font = font.Font(size=14)
+
+year_entry = Entry(root, width=6, font=entry_font)
+year_entry.place(x=700, y=25)
+
+seperator1 = Label(root, text="-", font=entry_font)
+seperator1.place(x=776, y=25)
+
+month_entry = Entry(root, width=3, font=entry_font)
+month_entry.place(x=790, y=25)
+
+seperator1 = Label(root, text="-", font=entry_font)
+seperator1.place(x=834, y=25)
+
+day_entry = Entry(root, width=3, font=entry_font)
+day_entry.place(x=850, y=25)
+
+
 # Get image date
 def get_date():
-    date_font = font.Font(size=12)
-    cal = DateEntry(root, width=10, font=date_font)
-    cal.place(x=770, y=28)
-
-
-get_date()
+    whole_date = (
+        str(year_entry.get())
+        + "-"
+        + str(month_entry.get())
+        + "-"
+        + str(day_entry.get())
+    )
+    return whole_date
 
 
 def get_image():
     url = "https://api.nasa.gov/planetary/apod?api_key=tgdFlsc0ek07wdiX6UI5RDFH0793AzMD5YQi0DWE"
 
-    params = {"hd": "True"}
+    print(get_date())
+    params = {"hd": "True", "date": get_date()}
 
     # get json data from api
     response = requests.get(url, params=params)
@@ -45,6 +67,7 @@ def get_image():
     explanation.insert(INSERT, json_data["explanation"])
     explanation.config(state=DISABLED)
     explanation.place(x=1400, y=80)
+    print(get_date())
     return image_url
 
 
