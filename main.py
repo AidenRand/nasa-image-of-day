@@ -6,6 +6,7 @@ from datetime import date
 import webbrowser
 import requests
 import json
+from PIL import Image, ImageTk
 
 root = Tk()
 root.geometry("1900x1080")
@@ -101,8 +102,21 @@ def show_image():
     label.place(x=15, y=65)
 
 
+# Print the APOD link
+def callback(apod_url):
+    webbrowser.open_new_tab(apod_url)
+
+
+link_font = font.Font(size=14)
+link = Label(root, text="APOD link", cursor="hand2", font=link_font)
+link.place(x=1080, y=25)
+link.bind("<Button-1>", lambda e: callback("https://apod.nasa.gov/apod/astropix.html"))
+
+
 buttonFont = font.Font(size=16)
-imageBtn = Button(root, text="Get image", font=buttonFont, command=show_image)
+imageBtn = Button(
+    root, text="Get image", font=buttonFont, command=show_image, cursor="hand2"
+)
 imageBtn.place(x=920, y=19)
 
 root.mainloop()
