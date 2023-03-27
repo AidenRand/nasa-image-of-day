@@ -11,10 +11,7 @@ import json
 root = Tk()
 root.geometry("1900x1080")
 root.title("Nasa Images")
-root.config(bg="#d8d8d8")
-
-default_font = font.Font(size=14)
-root.option_add("*Font", default_font)
+root.config(bg="#1c1c1c")
 
 # Get todays date
 today = date.today()
@@ -25,21 +22,23 @@ day = today.strftime("%d")
 
 
 # Create date entries
-year_entry = Entry(root, width=6)
+entry_font = font.Font(size=14)
+
+year_entry = Entry(root, width=6, font=entry_font)
 year_entry.place(x=700, y=25)
 year_entry.insert(0, year)
 
-seperator1 = Label(root, text="-")
+seperator1 = Label(root, text="-", font=entry_font, bg="#1c1c1c")
 seperator1.place(x=776, y=25)
 
-month_entry = Entry(root, width=3)
+month_entry = Entry(root, width=3, font=entry_font)
 month_entry.place(x=790, y=25)
 month_entry.insert(0, month)
 
-seperator2 = Label(root, text="-")
+seperator2 = Label(root, text="-", font=entry_font, bg="#1c1c1c")
 seperator2.place(x=834, y=25)
 
-day_entry = Entry(root, width=3)
+day_entry = Entry(root, width=3, font=entry_font)
 day_entry.place(x=850, y=25)
 day_entry.insert(0, day)
 
@@ -58,8 +57,6 @@ def get_date():
 
 def get_image():
     url = "https://api.nasa.gov/planetary/apod?api_key=tgdFlsc0ek07wdiX6UI5RDFH0793AzMD5YQi0DWE"
-
-    print(get_date())
     params = {"hd": "True", "date": get_date()}
 
     # get json data from api
@@ -68,14 +65,16 @@ def get_image():
     image_url = json_data["url"]
 
     # Print image explanation
-    erase_image = Label(root, width=200, height=200)
+    erase_image = Label(root, width=200, height=200, bg="#1c1c1c")
     erase_image.place(x=1320, y=0)
 
+    explanation_font = font.Font(size=14)
     explanation = Text(
         root,
         width=40,
         height=27,
         wrap=WORD,
+        font=explanation_font,
         bg="#d8d8d8",
     )
     explanation.insert(INSERT, json_data["explanation"])
@@ -91,7 +90,7 @@ def show_image():
     u.close()
 
     # Create image background to erase old image
-    erase_image = Label(root, width=200, height=200)
+    erase_image = Label(root, width=200, height=200, bg="#1c1c1c")
     erase_image.place(x=0, y=65)
 
     # print photo to window
@@ -106,11 +105,16 @@ def callback(apod_url):
     webbrowser.open_new_tab(apod_url)
 
 
-link = Label(root, text="APOD link", cursor="hand2")
-link.place(x=1070, y=25)
+link_font = font.Font(size=14)
+link = Label(root, text="APOD link", cursor="hand2", font=link_font)
+link.place(x=1080, y=25)
 link.bind("<Button-1>", lambda e: callback("https://apod.nasa.gov/apod/astropix.html"))
 
-imageBtn = Button(root, text="Get image", command=show_image, cursor="hand2")
+
+buttonFont = font.Font(size=16)
+imageBtn = Button(
+    root, text="Get image", font=buttonFont, command=show_image, cursor="hand2"
+)
 imageBtn.place(x=920, y=19)
 
 root.mainloop()
